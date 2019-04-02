@@ -35,4 +35,8 @@ public class MainApplication extends NavigationApplication  {
         return getPackages();
     }
    
+    @Override
+public String getJSMainModuleName() {
+	return "index.android.js";
+}
 }
