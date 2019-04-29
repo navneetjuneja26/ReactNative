@@ -16,24 +16,14 @@ import MainText from "../../components/UI/MainText/MainText";
 import HeadingText from "../../components/UI/HeadingText/HeadingText";
 import PickImage from "../../components/PickImage/PickImage";
 import PickLocation from "../../components/PickLocation/PickLocation";
-import validate from "../../utility/validation";
 
 class SharePlaceScreen extends Component {
   static navigatorStyle = {
     navBarButtonColor: "orange"
-  };
+  }
 
   state = {
-    controls: {
-      placeName: {
-        value: "",
-        valid: false,
-        touched: false,
-        validationRules: {
-          notEmpty: true
-        }
-      }
-    }
+    placeName: ""
   };
 
   constructor(props) {
@@ -52,24 +42,14 @@ class SharePlaceScreen extends Component {
   };
 
   placeNameChangedHandler = val => {
-    this.setState(prevState => {
-      return {
-        controls: {
-          ...prevState.controls,
-          placeName: {
-            ...prevState.controls.placeName,
-            value: val,
-            valid: validate(val, prevState.controls.placeName.validationRules),
-            touched: true
-          }
-        }
-      };
+    this.setState({
+      placeName: val
     });
   };
 
   placeAddedHandler = () => {
-    if (this.state.controls.placeName.value.trim() !== "") {
-      this.props.onAddPlace(this.state.controls.placeName.value);
+    if (this.state.placeName.trim() !== "") {
+      this.props.onAddPlace(this.state.placeName);
     }
   };
 
@@ -83,15 +63,11 @@ class SharePlaceScreen extends Component {
           <PickImage />
           <PickLocation />
           <PlaceInput
-            placeData={this.state.controls.placeName}
+            placeName={this.state.placeName}
             onChangeText={this.placeNameChangedHandler}
           />
           <View style={styles.button}>
-            <Button
-              title="Share the Place!"
-              onPress={this.placeAddedHandler}
-              disabled={!this.state.controls.placeName.valid}
-            />
+            <Button title="Share the Place!" onPress={this.placeAddedHandler} />
           </View>
         </View>
       </ScrollView>
